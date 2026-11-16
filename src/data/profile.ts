@@ -18,7 +18,7 @@ export const profile = {
     'Three years building production software: React and TypeScript front ends, Python / FastAPI on PostgreSQL, and underneath them multi-agent systems, RAG pipelines and document AI with LangGraph and Claude on Amazon Bedrock.',
   email: 'nandhinisubramanis9@gmail.com',
   linkedin: 'https://www.linkedin.com/in/nandhini-subramani09',
-  github: '', // TODO: add GitHub profile URL; the link is hidden while empty
+  github: 'https://github.com/922001', // link is hidden if this is empty
   resume: '/Nandhini_S_Resume.pdf',
 }
 
