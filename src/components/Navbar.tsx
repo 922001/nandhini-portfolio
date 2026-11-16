@@ -19,7 +19,12 @@ export default function Navbar() {
     })
 
     // Only draw the bottom rule once the page has moved, so the hero starts clean.
-    const onScroll = () => setScrolled(window.scrollY > 24)
+    // Back above the first section (in the hero): no nav item is active.
+    const first = document.getElementById(navLinks[0].id)
+    const onScroll = () => {
+      setScrolled(window.scrollY > 24)
+      if (first && first.getBoundingClientRect().top > window.innerHeight * 0.5) setActive('')
+    }
     onScroll()
     window.addEventListener('scroll', onScroll, { passive: true })
     return () => {
