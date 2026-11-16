@@ -1,0 +1,75 @@
+@import "tailwindcss";
+
+/*
+  Design tokens — the whole visual identity lives here.
+  Each --color-x becomes Tailwind classes: bg-x, text-x, border-x.
+  Each --font-x becomes font-x.
+  Change a value here and the entire site follows.
+*/
+@theme {
+  /* Surfaces */
+  --color-ink: #0e0e10;     /* page background: warm near-black, not pure #000 */
+  --color-panel: #151518;   /* the rare raised surface (code blocks, diagram canvas) */
+  --color-line: #26262b;    /* hairline rules and borders */
+
+  /* Text */
+  --color-paper: #e9e6df;   /* main text: warm off-white, easier on the eye than #fff */
+  --color-muted: #8a8a93;   /* secondary text, labels, metadata */
+
+  /* Accents: used sparingly */
+  --color-violet: #7c6cf0;  /* the ONE accent: links, active state, "my work" */
+  --color-blue: #5b8def;    /* diagrams only: team-owned / infrastructure nodes */
+
+  /* Type */
+  --font-display: "Instrument Serif", ui-serif, Georgia, serif;
+  --font-sans: "Inter Tight", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, monospace;
+}
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 5rem;
+}
+
+body {
+  @apply bg-ink font-sans text-paper antialiased;
+  font-size: 17px;
+  line-height: 1.6;
+}
+
+/* Instrument Serif has one weight; never let the browser fake bold. */
+.font-display {
+  font-weight: 400;
+  font-synthesis: none;
+  letter-spacing: -0.01em;
+}
+
+/* Mono labels: small, spaced, uppercase. Used for section numbers and margin notes.
+   Inside @layer components so a utility like text-violet can still override the colour. */
+@layer components {
+  .label {
+    @apply font-mono text-[11px] uppercase tracking-[0.18em] text-muted;
+  }
+}
+
+::selection {
+  background: rgb(124 108 240 / 0.35);
+}
+
+a:focus-visible,
+button:focus-visible {
+  outline: 1px solid var(--color-violet);
+  outline-offset: 3px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
