@@ -1,11 +1,18 @@
 import { AnimatePresence, motion } from 'framer-motion'
 import { useEffect, useState } from 'react'
+import { Link, useLocation } from 'react-router'
 import { navLinks, profile } from '../data/profile'
 
 export default function Navbar() {
   const [open, setOpen] = useState(false)
   const [active, setActive] = useState('')
   const [scrolled, setScrolled] = useState(false)
+  const { pathname } = useLocation()
+  const onHome = pathname === '/'
+
+  // On the homepage "#about" scrolls on the same page; on a case study the
+  // link must go back home first: "/#about".
+  const sectionHref = (id: string) => (onHome ? `#${id}` : `/#${id}`)
 
   useEffect(() => {
     // Mark a section "active" when it crosses the middle band of the screen.
@@ -23,7 +30,7 @@ export default function Navbar() {
     const first = document.getElementById(navLinks[0].id)
     const onScroll = () => {
       setScrolled(window.scrollY > 24)
-      if (first && first.getBoundingClientRect().top > window.innerHeight * 0.5) setActive('')
+      if (!first || first.getBoundingClientRect().top > window.innerHeight * 0.5) setActive('')
     }
     onScroll()
     window.addEventListener('scroll', onScroll, { passive: true })
@@ -31,7 +38,7 @@ export default function Navbar() {
       observer.disconnect()
       window.removeEventListener('scroll', onScroll)
     }
-  }, [])
+  }, [pathname]) // re-run when the page changes, so it watches the new page's sections
 
   // Lock page scroll while the mobile menu covers the screen.
   useEffect(() => {
@@ -45,15 +52,15 @@ export default function Navbar() {
       }`}
     >
       <nav className="mx-auto flex h-14 max-w-6xl items-center justify-between px-5 sm:px-8">
-        <a href="#top" className="font-display text-xl leading-none" onClick={() => setOpen(false)}>
+        <Link to="/" className="font-display text-xl leading-none" onClick={() => setOpen(false)}>
           N<span className="text-violet">.</span>S
-        </a>
+        </Link>
 
         <ul className="hidden items-center gap-7 md:flex">
           {navLinks.map((l) => (
             <li key={l.id}>
-              <a
-                href={`#${l.id}`}
+              <Link
+                to={sectionHref(l.id)}
                 className={`relative block py-1 text-sm transition-colors ${
                   active === l.id ? 'text-paper' : 'text-muted hover:text-paper'
                 }`}
@@ -67,7 +74,7 @@ export default function Navbar() {
                     transition={{ type: 'spring', stiffness: 420, damping: 36 }}
                   />
                 )}
-              </a>
+              </Link>
             </li>
           ))}
           <li>
@@ -112,14 +119,14 @@ export default function Navbar() {
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.04 * i, duration: 0.3 }}
                 >
-                  <a
-                    href={`#${l.id}`}
+                  <Link
+                    to={sectionHref(l.id)}
                     onClick={() => setOpen(false)}
                     className="flex items-baseline gap-4 border-b border-line py-4"
                   >
                     <span className="font-mono text-xs text-muted">{String(i + 1).padStart(2, '0')}</span>
                     <span className="font-display text-3xl">{l.label}</span>
-                  </a>
+                  </Link>
                 </motion.li>
               ))}
             </ol>

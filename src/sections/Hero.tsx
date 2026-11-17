@@ -1,5 +1,7 @@
 import { motion } from 'framer-motion'
-import { profile, projects, stats } from '../data/profile'
+import { Link } from 'react-router'
+import { caseStudies } from '../data/caseStudies'
+import { profile, stats } from '../data/profile'
 import TextLink from '../components/TextLink'
 
 // One easing curve for the whole hero: fast start, long soft landing.
@@ -57,20 +59,20 @@ export default function Hero() {
         <motion.nav {...rise(0.46)} aria-label="Case studies" className="md:col-span-4">
           <p className="label">Index — case studies</p>
           <ol className="mt-2">
-            {projects.map((p, i) => (
-              <li key={p.slug}>
-                <a
-                  href={`#${p.slug}`}
+            {caseStudies.map((c, i) => (
+              <li key={c.slug}>
+                <Link
+                  to={c.status === 'live' ? `/work/${c.slug}` : `#${c.slug}`}
                   className="group flex items-baseline gap-4 border-b border-line py-3 transition-colors hover:border-violet/60"
                 >
                   <span className="font-mono text-xs text-muted transition-colors group-hover:text-violet">
                     {String(i + 1).padStart(2, '0')}
                   </span>
-                  <span className="flex-1 text-paper/90">{p.name}</span>
+                  <span className={`flex-1 ${c.status === 'live' ? 'text-paper/90' : 'text-muted'}`}>{c.title}</span>
                   <span className="text-muted transition-transform duration-300 group-hover:translate-x-1 group-hover:text-violet">
-                    →
+                    {c.status === 'live' ? '→' : 'soon'}
                   </span>
-                </a>
+                </Link>
               </li>
             ))}
           </ol>

@@ -96,7 +96,7 @@ export const experience: Role[] = [
     place: 'Chennai',
     projects: [
       {
-        name: 'AiReadr — Healthcare IDP',
+        name: 'Intelligent Document Processing Platform',
         client: 'a healthcare services company',
         stack: ['FastAPI', 'Textract', 'Amazon Bedrock', 'pgvector', 'SQS'],
         points: [
@@ -125,59 +125,7 @@ export const experience: Role[] = [
   },
 ]
 
-export type Project = {
-  slug: string
-  name: string
-  client: string
-  tagline: string
-  problem: string
-  stack: string[]
-  accent: 'violet' | 'blue' | 'cyan' | 'pink'
-}
-
-// Full case studies (architecture, decisions, challenges, results) arrive on Day 2.
-export const projects: Project[] = [
-  {
-    slug: 'construction-multi-agent',
-    name: 'Agentic RAG Assistant',
-    client: 'Construction · zeb',
-    tagline: 'One assistant over three enterprise systems, routed by a LangGraph supervisor.',
-    problem:
-      'Project status, costs and documents lived in three separate systems, so simple questions went to the technical team.',
-    stack: ['LangGraph', 'MCP', 'Neo4j', 'pgvector', 'Claude Sonnet', 'React'],
-    accent: 'violet',
-  },
-  {
-    slug: 'aireadr-idp',
-    name: 'AiReadr IDP',
-    client: 'Healthcare · Avasoft',
-    tagline: 'Referral documents in, structured JSON with per-field confidence out.',
-    problem:
-      'Healthcare referral documents arrived in many formats and had to be read and keyed in by hand.',
-    stack: ['FastAPI', 'Textract', 'Claude vision', 'pgvector', 'SQS', 'React'],
-    accent: 'blue',
-  },
-  {
-    slug: 'voice-rag-assistant',
-    name: 'Voice-Enabled RAG Assistant',
-    client: 'Research · Avasoft',
-    tagline: 'Ask documents by text or voice and get cited answers.',
-    problem:
-      'Teams needed answers from a large document set without reading through every file.',
-    stack: ['RAG', 'Titan Embeddings', 'pgvector', 'Transcribe', 'FastAPI', 'React'],
-    accent: 'cyan',
-  },
-  {
-    slug: 'booking-platform',
-    name: 'Pet-Care Booking Platform',
-    client: 'Pet care · Avasoft',
-    tagline: 'A React + TypeScript platform backed by a Node.js BFF and Salesforce sync.',
-    problem:
-      'The business needed a new web application built from the functionality of its existing site.',
-    stack: ['React', 'TypeScript', 'Node.js', 'Express', 'PostgreSQL', 'Salesforce'],
-    accent: 'pink',
-  },
-]
+// Projects and case studies now live in caseStudies.ts.
 
 export const skills = [
   {
@@ -187,12 +135,12 @@ export const skills = [
   },
   {
     group: 'Generative AI',
-    usedIn: 'AiReadr IDP (OCR, vision fallback, extraction) · voice RAG assistant · invoice IDP',
+    usedIn: 'Healthcare IDP (OCR, vision fallback, extraction) · voice RAG assistant · invoice IDP',
     items: ['RAG', 'GraphRAG', 'Embeddings', 'Semantic search', 'Prompt engineering', 'IDP', 'OCR', 'Vision LLMs'],
   },
   {
     group: 'Backend',
-    usedIn: 'FastAPI for AiReadr, invoice IDP and voice RAG · Node.js BFF for the booking platform · Golang on Azure',
+    usedIn: 'FastAPI for both IDP pipelines and voice RAG · Node.js BFF for the booking platform · Golang on Azure',
     items: ['Python', 'FastAPI', 'Pydantic', 'SQLAlchemy', 'Node.js', 'Express', 'Golang', 'REST APIs', 'JWT'],
   },
   {
@@ -207,7 +155,7 @@ export const skills = [
   },
   {
     group: 'Databases',
-    usedIn: 'pgvector for AiReadr and voice RAG · Neo4j graph search · PostgreSQL + Salesforce SOQL for booking',
+    usedIn: 'pgvector for healthcare IDP and voice RAG · Neo4j graph search · PostgreSQL + Salesforce SOQL for booking',
     items: ['PostgreSQL', 'pgvector', 'MySQL', 'Neo4j', 'Redis', 'Salesforce SOQL'],
   },
 ]

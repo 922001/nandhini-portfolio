@@ -1,52 +1,73 @@
-import { ArrowUpRight } from 'lucide-react'
+import { Link } from 'react-router'
 import Section, { Reveal } from '../components/Section'
-import { projects } from '../data/profile'
+import { caseStudies } from '../data/caseStudies'
 
+/*
+  One ruled row per project. Live case studies are links; an in-progress
+  project is shown quieter and is not clickable yet.
 
+  ─────────────────────────────────────────────────────────
+  01  PRODUCTION          Enterprise Multi-Agent RAG Assistant  →
+      Construction ·…     tagline…
+                          PYTHON · LANGGRAPH · …
+*/
 export default function Projects() {
   return (
     <Section
       id="projects"
       title="Selected work"
-      lede="Four production systems, each with its architecture, the decisions behind it and exactly which parts I built."
+      lede="Two production systems from my client work, each with its architecture, the decisions behind it and exactly which parts I built. A third, independent project is in progress."
     >
-      <div className="grid gap-5 md:grid-cols-2">
-        {projects.map((p, i) => (
-          <Reveal key={p.slug} delay={i * 0.08}>
-            <article
-              id={p.slug}
-              className="group flex h-full flex-col overflow-hidden rounded-2xl border border-line bg-panel/60 transition-transform duration-300 hover:-translate-y-1"
-            >
-              <div className="h-px w-full bg-violet" />
-              <div className="flex flex-1 flex-col p-6">
-                <p className="font-mono text-xs text-muted">
-                  {p.client}
+      <ol className="border-b border-line">
+        {caseStudies.map((c, i) => {
+          const live = c.status === 'live'
+
+          const row = (
+            <div className="grid gap-3 py-8 md:grid-cols-12 md:gap-6">
+              <div className="md:col-span-3">
+                <p className="font-mono text-[13px] text-muted">{String(i + 1).padStart(2, '0')}</p>
+                <p className={`label mt-2 ${live ? 'text-violet' : ''}`}>
+                  {c.kind === 'production' ? 'Production' : 'Independent'}
+                  {!live && ' · in progress'}
                 </p>
-                <h3 className="mt-2 flex items-start justify-between gap-3 font-display text-xl font-semibold text-paper">
-                  {p.name}
-                  <ArrowUpRight
-                    size={20}
-                    className="shrink-0 text-muted transition group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-violet"
-                  />
-                </h3>
-                <p className="mt-2 text-sm text-paper/80">{p.tagline}</p>
-                <p className="mt-4 text-sm leading-relaxed text-muted">
-                  <span className="text-muted">Problem: </span>
-                  {p.problem}
-                </p>
-                <div className="mt-auto flex flex-wrap gap-1.5 pt-5">
-                  {p.stack.map((s) => (
-                    <span key={s} className="rounded-md border border-line px-2 py-0.5 font-mono text-[11px] text-paper/80">
-                      {s}
-                    </span>
-                  ))}
-                </div>
+                <p className="label mt-1">{c.industry}</p>
               </div>
-            </article>
-          </Reveal>
-        ))}
-      </div>
-      <p className="mt-6 text-sm text-muted">Full case studies with architecture diagrams are coming next.</p>
+
+              <div className="md:col-span-9">
+                <h3
+                  className={`flex items-baseline justify-between gap-4 font-display text-3xl leading-tight sm:text-4xl ${
+                    live ? 'transition-colors group-hover:text-violet' : 'text-paper/60'
+                  }`}
+                >
+                  {c.title}
+                  {live && (
+                    <span className="shrink-0 text-2xl text-muted transition-transform duration-300 group-hover:translate-x-1 group-hover:text-violet">
+                      →
+                    </span>
+                  )}
+                </h3>
+                <p className={`mt-3 max-w-2xl ${live ? 'text-muted' : 'text-muted/70'}`}>{c.tagline}</p>
+                <p className="mt-4 font-mono text-[12px] tracking-wide text-paper/60">{c.stack.join(' · ')}</p>
+                {live && <p className="label mt-5 text-paper">Read the case study</p>}
+              </div>
+            </div>
+          )
+
+          return (
+            <Reveal key={c.slug} delay={i * 0.06}>
+              <li id={c.slug} className="border-t border-line">
+                {live ? (
+                  <Link to={`/work/${c.slug}`} className="group block">
+                    {row}
+                  </Link>
+                ) : (
+                  row
+                )}
+              </li>
+            </Reveal>
+          )
+        })}
+      </ol>
     </Section>
   )
 }
